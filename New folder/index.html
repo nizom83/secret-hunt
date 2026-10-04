@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Secret Hunt</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+
+            font-family: Arial, sans-serif;
+
+            background:
+                radial-gradient(circle at top, #243b55, #0b1320 60%);
+
+            color: white;
+        }
+
+        .box {
+            width: 100%;
+            max-width: 480px;
+
+            padding: 35px 25px;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            border: 1px solid rgba(255,255,255,0.15);
+
+            border-radius: 22px;
+
+            text-align: center;
+
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+
+            backdrop-filter: blur(12px);
+        }
+
+        .icon {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #bfc7d5;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+            outline: none;
+
+            border-radius: 12px;
+
+            font-size: 17px;
+
+            text-align: center;
+
+            margin-bottom: 12px;
+        }
+
+        button {
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: #f5b942;
+
+            color: #111;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #ffd166;
+        }
+
+        #result {
+            display: none;
+
+            margin-top: 25px;
+
+            padding: 20px;
+
+            border-radius: 15px;
+
+            background: rgba(0,0,0,0.25);
+        }
+
+        .success {
+            color: #6cff9b;
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            margin-bottom: 12px;
+        }
+
+        .location {
+            line-height: 1.6;
+
+            font-size: 17px;
+        }
+
+        #error {
+            color: #ff7777;
+
+            margin-top: 15px;
+
+            font-weight: bold;
+        }
+
+        .hint {
+            margin-top: 25px;
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            background: rgba(255,255,255,0.05);
+
+            color: #cbd5e1;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <div class="icon">🔐</div>
+
+    <h1>SECRET HUNT</h1>
+
+    <p class="subtitle">
+        Xazinani topish uchun parolni kiriting
+    </p>
+
+
+    <input
+        type="text"
+        id="passwordInput"
+        placeholder="Parolni kiriting..."
+        autocomplete="off"
+    >
+
+
+    <button onclick="checkPassword()">
+        🔓 PAROLNI TEKSHIRISH
+    </button>
+
+
+    <div id="error"></div>
+
+
+    <div id="result">
+
+        <div class="success">
+            ✅ PAROL TO‘G‘RI!
+        </div>
+
+        <div class="location" id="locationText"></div>
+
+    </div>
+
+
+    <div class="hint">
+
+        💡 Har bir topilgan parol sizga yangi manzil beradi.
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /*
+    ==================================================
+    🔐 O'YINNING PAROLLARI VA MANZILLARI
+    ==================================================
+
+    Siz keyinchalik shu joyni o'zgartirasiz.
+
+    "PAROL" : "SHU PAROLGA TEGISHLI MANZIL"
+
+    ==================================================
+    */
+
+
+    const passwords = {
+
+        "NIZOM":
+            "📍 1-manzil: Universitet hovlisidagi katta daraxt yoniga boring. U yerda keyingi parol yashirilgan.",
+
+
+        "KITOB":
+            "📍 2-manzil: Universitetning 2-qavatidagi e'lonlar taxtasini toping. Keyingi topshiriq shu yerda."
+
+    };
+
+
+    function checkPassword() {
+
+        const input =
+            document
+            .getElementById("passwordInput")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+        const result =
+            document.getElementById("result");
+
+
+        const locationText =
+            document.getElementById("locationText");
+
+
+        const error =
+            document.getElementById("error");
+
+
+        result.style.display = "none";
+
+        error.innerText = "";
+
+
+        let found = false;
+
+
+        for (const password in passwords) {
+
+            if (input === password.toLowerCase()) {
+
+                locationText.innerText =
+                    passwords[password];
+
+                result.style.display = "block";
+
+                found = true;
+
+                break;
+            }
+        }
+
+
+        if (!found && input !== "") {
+
+            error.innerText =
+                "❌ Parol noto‘g‘ri. Qaytadan urinib ko‘ring.";
+
+        }
+
+    }
+
+
+    document
+        .getElementById("passwordInput")
+        .addEventListener("keypress", function(event) {
+
+            if (event.key === "Enter") {
+
+                checkPassword();
+
+            }
+
+        });
+
+</script>
+
+</body>
+</html>
